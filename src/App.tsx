@@ -1,61 +1,65 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import { getCurrentTabUId, getCurrentTabUrl } from "./chrome-services/utils";
-import { ChromeMessage, Sender } from "./types";
+import AccountItem from "./AccountItem";
+
+interface Account {
+  login: string;
+  password: string;
+  comment: string;
+}
 
 function App() {
-  const [url, setUrl] = useState<string>("");
-  const [responseFromContent, setResponseFromContent] = useState<string>("");
 
-  /**
-   * Get current URL
-   */
+  const [accounts, setAccounts] = useState<Account[]>([]);
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
+  const [comment, setComment] = useState("");
+
+  console.log('Popup component created!');
+
   useEffect(() => {
-    getCurrentTabUrl((url) => {
-      setUrl(url || "undefined");
-    });
+    const storedAccounts = localStorage.getItem("accounts");
+    if (storedAccounts) {
+      setAccounts(JSON.parse(storedAccounts));
+    }
   }, []);
 
-  const sendTestMessage = () => {
-    const message: ChromeMessage = {
-      from: Sender.React,
-      message: "Hello from React",
-    };
-
-    getCurrentTabUId((id) => {
-      id &&
-        chrome.tabs.sendMessage(id, message, (responseFromContentScript) => {
-          setResponseFromContent(responseFromContentScript);
-        });
-    });
+  const saveAccounts = (updatedAccounts: Account[]) => {
+    localStorage.setItem("accounts", JSON.stringify(updatedAccounts));
+    setAccounts(updatedAccounts);
   };
 
-  const sendRemoveMessage = () => {
-    const message: ChromeMessage = {
-      from: Sender.React,
-      message: "delete logo",
-    };
-
-    getCurrentTabUId((id) => {
-      id &&
-        chrome.tabs.sendMessage(id, message, (response) => {
-          setResponseFromContent(response);
-        });
-    });
+  const addAccount = () => {
+    if (!login || !password) return;
+    const newAccounts = [...accounts, { login, password, comment }];
+    saveAccounts(newAccounts);
+    setLogin("");
+    setPassword("");
+    setComment("");
   };
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>Home</p>
-        <p>URL:</p>
-        <p>{url}</p>
-        <button onClick={sendTestMessage}>SEND MESSAGE</button>
-        <button onClick={sendRemoveMessage}>Remove logo</button>
-        <p>Response from content:</p>
-        <p>{responseFromContent}</p>
-      </header>
-    </div>
+  const deleteAccount = (index: number) => {
+    const newAccounts = accounts.filter((_, i) => i !== index);
+    saveAccounts(newAccounts);
+  };
+
+  return ( <div>
+    <h2>Список аккаунтов</h2>
+    <ul>
+      {accounts.map((account, index) => (
+        <AccountItem
+          key={index}
+          account={account}
+          onDelete={() => deleteAccount(index)}
+        />
+      ))}
+    </ul>
+    <h3>Добавить аккаунт</h3>
+    <input type="text" placeholder="Логин" value={login} onChange={(e) => setLogin(e.target.value)} />
+    <input type="text" placeholder="Пароль" value={password} onChange={(e) => setPassword(e.target.value)} />
+    <input type="text" placeholder="Комментарий" value={comment} onChange={(e) => setComment(e.target.value)} />
+    <button onClick={addAccount}>Добавить</button>
+  </div>
   );
 }
 
