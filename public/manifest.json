@@ -1,10 +1,10 @@
 {
-  "name": "Chrome React Extension",
+  "name": "Chrome React Extension 2.7",
   "description": "Template for creating Chrome extensions with React",
   "version": "1.0",
   "manifest_version": 3,
   "action": {
-    "default_popup": "index.html",
+    "default_popup": "popup.html",
     "default_title": "Open the popup"
   },
   "icons": {
@@ -12,12 +12,24 @@
     "48": "logo192.png",
     "128": "logo192.png"
   },
+  "background": {
+    "service_worker": "background.js"
+  },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["./static/js/content.js"]
+      "js": ["content.js"],
+      "run_at": "document_idle"
     }
   ],
-  "devtools_page": "index.html",
-  "permissions": ["activeTab"]
+  "devtools_page": "popup.html",
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "storage",
+    "scripting",
+    "declarativeContent"],
+  "host_permissions": [
+    "<all_urls>"
+  ]
 }

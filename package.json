@@ -19,7 +19,8 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
-    "@types/chrome": "^0.0.226"
+    "@types/chrome": "^0.0.226",
+    "mini-css-extract-plugin": "^2.9.2"
   },
   "scripts": {
     "start": "react-scripts start",

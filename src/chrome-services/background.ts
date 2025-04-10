@@ -1,39 +1,45 @@
-export {};
-/** Fired when the extension is first installed,
- *  when the extension is updated to a new version,
- *  and when Chrome is updated to a new version. */
 
-chrome.runtime.onInstalled.addListener((details) => {
-  if (details.reason === "install") {
-    chrome.windows.create({
-      type: "popup",
-      url: "index.html",
-      width: 400,
-      height: 400,
+
+// chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+//   if (message.type === 'HIGHLIGHT_BUTTONS') {
+//     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+//       // let tabId = tabs[0].id;
+//       console.log("Tabs: ", tabs);
+//       // chrome.scripting.executeScript({
+//       //   target: { tabId : tabs[0].id! } ,
+//       //   func: () => {
+//       //     chrome.runtime.sendMessage({ type: 'HIGHLIGHT_BUTTONS_FROM_BG' });
+//       //   }
+//       // });
+//     });
+//   }
+// });
+
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.type === "HIGHLIGHT_BUTTONS") {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
+      if(tabs && tabs.length) {
+        const activeTab = tabs[0];
+        if (activeTab && activeTab.id) {
+          chrome.scripting.executeScript({
+            target: { tabId: activeTab.id },
+            files:["content.js"]
+          });
+        } else {
+          console.warn("No active tab found.");
+        }
+      }
     });
   }
 });
 
-chrome.runtime.onConnect.addListener((port) => {
-  console.log("[background.js] onConnect", port);
-  alert("[background.js] onInstalled");
-});
+export {};
 
-chrome.runtime.onStartup.addListener(() => {
-  console.log("[background.js] onStartup");
-  alert("[background.js] onInstalled");
-});
 
-/**
- *  Sent to the event page just before it is unloaded.
- *  This gives the extension opportunity to do some clean up.
- *  Note that since the page is unloading,
- *  any asynchronous operations started while handling this event
- *  are not guaranteed to complete.
- *  If more activity for the event page occurs before it gets
- *  unloaded the onSuspendCanceled event will
- *  be sent and the page won't be unloaded. */
-chrome.runtime.onSuspend.addListener(() => {
-  console.log("[background.js] onSuspend");
-  alert("[background.js] onSuspend");
-});
+/*   func: () => {
+              const buttons = document.querySelectorAll("button");
+              buttons.forEach((btn) => {
+                btn.style.border = "2px solid red";
+              });
+            },*/

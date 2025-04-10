@@ -15,7 +15,7 @@ function App() {
   const [password, setPassword] = useState("");
   const [comment, setComment] = useState("");
 
-  console.log('Popup component created!');
+  // console.log('Popup component created!');
 
   useEffect(() => {
     const storedAccounts = localStorage.getItem("accounts");
@@ -38,19 +38,19 @@ function App() {
     setComment("");
   };
 
-  const deleteAccount = (index: number) => {
-    const newAccounts = accounts.filter((_, i) => i !== index);
+  const deleteAccount = (needToDelete: Account) => {
+    const newAccounts = accounts.filter((item) => item !==needToDelete);
     saveAccounts(newAccounts);
   };
 
-  return ( <div>
+  return (<div>
     <h2>Список аккаунтов</h2>
     <ul>
       {accounts.map((account, index) => (
         <AccountItem
           key={index}
           account={account}
-          onDelete={() => deleteAccount(index)}
+          onDelete={deleteAccount}
         />
       ))}
     </ul>
