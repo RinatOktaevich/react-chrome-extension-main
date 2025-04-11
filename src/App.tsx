@@ -43,7 +43,7 @@ function App() {
 
   return (<div>
     <h2>Список аккаунтов</h2>
-    <ul>
+    <div className="row g-2 flex-column account-list flex-nowrap px-2">
       {accounts.map((account, index) => (
         <AccountItem
           key={index}
@@ -51,13 +51,30 @@ function App() {
           onDelete={deleteAccount}
         />
       ))}
-    </ul>
-    <h3>Добавить аккаунт</h3>
-    <input type="text" placeholder="Логин" value={login} onChange={(e) => setLogin(e.target.value)} />
-    <input type="text" placeholder="Пароль" value={password} onChange={(e) => setPassword(e.target.value)} />
-    <input type="text" placeholder="Комментарий" value={comment} onChange={(e) => setComment(e.target.value)} />
-    <button onClick={addAccount}>Добавить</button>
-  </div>
+    </div>
+
+
+        <div className="mt-3 ms-1">
+          <h3>Добавить аккаунт</h3>
+          <input type="text"
+                 className="form-control form-control-sm"
+                 placeholder="Login" value={login}
+                 onChange={(e) => setLogin(e.target.value)}/>
+          <input type="text" placeholder="Password"
+                 className="form-control form-control-sm mt-2"
+                 value={password} onChange={(e) => setPassword(e.target.value)}/>
+          <input type="text"
+                 className="form-control form-control-sm mt-2"
+                 placeholder="Comment"
+                 value={comment}
+                 onChange={(e) => setComment(e.target.value)}/>
+          <button onClick={addAccount}
+                  className="btn btn-sm mt-3 bg-light">
+            Добавить
+          </button>
+        </div>
+
+      </div>
   );
 }
 

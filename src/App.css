@@ -1,0 +1,31 @@
+.account-list {
+    max-height: 300px;
+    overflow-y: scroll;
+}
+
+
+/* Applies to the entire page or specific element */
+.account-list {
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #999 transparent; /* Firefox */
+}
+
+/* Webkit browsers (Chrome, Edge, Safari) */
+.account-list::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.account-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.account-list::-webkit-scrollbar-thumb {
+    background-color: #999;
+    border-radius: 3px;
+}
+
+/* Optional: on hover */
+.account-list::-webkit-scrollbar-thumb:hover {
+    background-color: #666;
+}

@@ -2,7 +2,7 @@ import {Account} from "../AccountItem";
 
 console.log("Running content script on:", window.location.href);
 
-chrome.runtime.onMessage.addListener((message: {type:string, params: Account}, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message: {type:string, params: Account, andLogin:boolean}, sender, sendResponse) => {
 
     console.log('sender: ', sender);
     if (message.type === 'HIGHLIGHT_BUTTONS_FROM_BG') {
@@ -23,6 +23,16 @@ chrome.runtime.onMessage.addListener((message: {type:string, params: Account}, s
             let passwordRef: HTMLInputElement = passwordFields.item(0) as HTMLInputElement;
             passwordRef.value = message.params.password;
         }
+
+        if(message.andLogin) {
+            const submitNodes: NodeListOf<Element> = document.querySelectorAll("input[type='submit']");
+            if (submitNodes) {
+                let submitBtn: HTMLButtonElement = submitNodes.item(0) as HTMLButtonElement;
+                submitBtn.click();
+            }
+        }
+
+
 
         sendResponse('Done!');
     }
