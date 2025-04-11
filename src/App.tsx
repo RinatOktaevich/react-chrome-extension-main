@@ -15,8 +15,6 @@ function App() {
   const [password, setPassword] = useState("");
   const [comment, setComment] = useState("");
 
-  // console.log('Popup component created!');
-
   useEffect(() => {
     const storedAccounts = localStorage.getItem("accounts");
     if (storedAccounts) {
