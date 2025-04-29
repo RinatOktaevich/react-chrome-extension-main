@@ -1,15 +1,13 @@
 import {Account} from "../AccountItem";
+import {TabAction} from "./utils/getter";
 
 console.log("Running content script on:", window.location.href);
 
-chrome.runtime.onMessage.addListener((message: {type:string, params: Account, andLogin:boolean}, sender, sendResponse) => {
 
-    console.log('sender: ', sender);
-    if (message.type === 'HIGHLIGHT_BUTTONS_FROM_BG') {
-        console.log('Document ', document);
-        document.querySelectorAll('button').forEach(btn => {
-            btn.style.border = 'solid 2px red';
-        });
+
+chrome.runtime.onMessage.addListener((message: {type:TabAction, params: Account, andLogin:boolean}, sender, sendResponse) => {
+
+    if (message.type === TabAction.Login) {
 
         const loginFields: NodeListOf<Element> = document.querySelectorAll("input[name='email'], input[type='text']");
         const passwordFields: NodeListOf<Element> = document.querySelectorAll("input[type='password']");
@@ -31,8 +29,6 @@ chrome.runtime.onMessage.addListener((message: {type:string, params: Account, an
                 submitBtn.click();
             }
         }
-
-
 
         sendResponse('Done!');
     }

@@ -1,22 +1,22 @@
 :root, [data-bs-theme=light] {
-  --bs-body-bg: #08102f;
+  /*--bs-body-bg: #08102f;*/
 }
 
 body {
   width: 300px;
-  height: 400px;
+  height: 500px;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #35363c !important;
+  /*background: #35363c !important;*/
   /*background: linear-gradient(140deg, rgba(39, 39, 87, 1) 0%, rgba(8, 8, 69, 1) 35%, rgba(0, 94, 102, 1) 100%) !important;*/
-  color: #e7e7e7 !important;
+  /*color: #e7e7e7 !important;*/
 
   padding: 10px 20px;
-  height: 100vh;
+  /*height: 100vh;*/
 }
 
 code {
