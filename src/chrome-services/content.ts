@@ -1,5 +1,5 @@
-import {Account} from "../AccountItem";
 import {TabAction} from "./utils/getter";
+import {Account} from "../App";
 
 console.log("Running content script on:", window.location.href);
 
@@ -14,12 +14,12 @@ chrome.runtime.onMessage.addListener((message: {type:TabAction, params: Account,
 
         if (loginFields.length) {
             let loginRef: HTMLInputElement = loginFields.item(0) as HTMLInputElement;
-            loginRef.value = message.params.login;
+            loginRef.value = message.params.login || '';
         }
 
         if (passwordFields.length > 0) {
             let passwordRef: HTMLInputElement = passwordFields.item(0) as HTMLInputElement;
-            passwordRef.value = message.params.password;
+            passwordRef.value = message.params.password || '';
         }
 
         if(message.andLogin) {

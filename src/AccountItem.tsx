@@ -1,54 +1,19 @@
 import React from "react";
 import {runAction, TabAction} from "./chrome-services/utils/getter";
+import {Account} from "./App";
 
 
-export interface Account {
-  login: string;
-  password: string;
-  comment: string;
-}
+// export interface Account {
+//   login: string;
+//   password: string;
+//   comment: string;
+// }
 
 const AccountItem: React.FC<{account: Account, onDelete:Function}> = (inputParams) => {
   let {account, onDelete} = inputParams;
 
-  // const sendMessageToActiveTab = async (message:string) => {
-  //   const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
-  //   if(tab) {
-  //     const response = await chrome.tabs.sendMessage(tab.id!, message);
-  //   }
-  //   // TODO: Do something with the response.
-  // }
-
-  // const fillForm = () => {
-  //
-  //   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-  //     if (tabs[0]?.id) {
-  //       chrome.tabs.sendMessage(tabs[0].id, {type: TabAction.Login, params:account}, (response) => {
-  //         if (response) {
-  //           console.log('Response from sendMessage');
-  //           console.log(response);
-  //         }
-  //       });
-  //     }
-  //   });
-  // };
-
 
   const onPaste = (account:Account) => {
-
-    // chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    //   if (tabs[0]?.id) {
-    //     chrome.tabs.sendMessage(tabs[0].id, {type: 'HIGHLIGHT_BUTTONS_FROM_BG', params:account}, (response) => {
-    //       if (response) {
-    //         console.log('Response from sendMessage');
-    //         console.log(response);
-    //         window.close();
-    //       }
-    //     });
-    //   }
-    // });
-    /* ------------- */
-
       runAction({type: TabAction.Login, params: account}, (response) => {
           if (response) {
               console.log('Response from sendMessage');
@@ -60,18 +25,6 @@ const AccountItem: React.FC<{account: Account, onDelete:Function}> = (inputParam
 
 
   const onPasteAndLogin = (account:Account) => {
-
-    // chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    //   if (tabs[0]?.id) {
-    //     chrome.tabs.sendMessage(tabs[0].id, {type: 'HIGHLIGHT_BUTTONS_FROM_BG', params:account, andLogin:true}, (response) => {
-    //       if (response) {
-    //         console.log('Response from sendMessage');
-    //         console.log(response);
-    //       }
-    //     });
-    //   }
-    // });
-      /* --------------- */
 
       runAction({type: TabAction.Login, params: account, andLogin:true}, (response) => {
           if (response) {
